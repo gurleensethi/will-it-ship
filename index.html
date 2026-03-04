@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="./script.js"></script>
+    <link rel="stylesheet" href="./output.css" />
+</head>
+
+<body class="p-16" x-data="{ result: 'test' }">
+    <div class="mx-auto max-w-7xl text-center mb-16">
+        <h1 class="text-4xl mb-4">AI Estimate Validator</h1>
+        <h1 class="text-2xl">Validate your project estimates with cutting edge AI tech</h1>
+    </div>
+
+    <form class="flex flex-col border-2 border-gray-500 p-8 space-y-4 mx-auto max-w-6xl" x-on:submit="
+        $event.preventDefault();
+        let index = Math.floor(Math.random() * estimateResponses.length);
+        result = estimateResponses[index];
+    ">
+        <textarea placeholder="Enter project description" rows="4"></textarea>
+        <input type="number" placeholder="Enter a number" min="0" />
+        <select>
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+            <option value="year">Year</option>
+        </select>
+        <button>Verify Estimate</button>
+    </form>
+
+    <div x-text="result" class="text-center mt-16 text-xl"></div>
+</body>
+
+</html>

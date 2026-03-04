@@ -1,0 +1,5 @@
+[tools]
+"aqua:tailwindlabs/tailwindcss" = "latest"
+
+[tasks.tailwind]
+run = "tailwindcss -i ./styles.css -o output.css --watch"
