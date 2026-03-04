@@ -1,3 +1,14 @@
+function hashCode(str) {
+  let hash = 0;
+  for (let i = 0, len = str.length; i < len; i++) {
+    let chr = str.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0;
+  }
+  if (hash < 0) hash *= -1;
+  return hash;
+}
+
 const estimateResponses = [
   "Holy fucking shit, did you just pull that time estimate straight out of your ass? It's wrong, you delusional walnut.",
   "Aww, look at this precious little dreamer thinking their estimate means anything. Wrong. Painfully, embarrassingly wrong.",
@@ -97,5 +108,5 @@ const estimateResponses = [
   "Prepare thy butthole, because reality is coming in dry with this estimate.",
   "You're the human equivalent of optimistic error messages.",
   "This timeline is faker than a Kardashian's ass. Completely wrong.",
-  "Even Nostradamus is facepalming at how terrible your estimate is."
+  "Even Nostradamus is facepalming at how terrible your estimate is.",
 ];
