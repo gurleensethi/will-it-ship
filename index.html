@@ -4,40 +4,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Will It Ship? - AI Estimate Validator</title>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="./script.js"></script>
     <link rel="stylesheet" href="./output.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+    </style>
 </head>
 
-<body class="p-16" x-data="{ result: '', loading: false }">
-    <div class="mx-auto max-w-7xl text-center mb-16">
-        <h1 class="text-4xl mb-4">AI Estimate Validator</h1>
-        <h1 class="text-2xl">Validate your project estimates with cutting edge AI tech</h1>
+<body class="bg-gray-50 min-h-screen py-12 px-4"
+    x-data="{ description: '', estimate: '', unit: 'day', result: '', loading: false }">
+    <div class="max-w-xl mx-auto">
+        <div class="text-center mb-10">
+            <div
+                class="inline-flex items-center justify-center w-14 h-14 bg-indigo-600 rounded-2xl mb-5">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Will It Ship?</h1>
+            <p class="text-gray-500">The AI-powered reality check for your project estimates</p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-gray-200 p-8">
+            <form x-on:submit="
+                $event.preventDefault();
+                loading = true;
+                setTimeout(() => {
+                    let index = Math.floor(Math.random() * estimateResponses.length);
+                    result = estimateResponses[index];
+                    loading = false;
+                }, 1500);
+            ">
+                <div class="space-y-6">
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                            What are you building?
+                        </label>
+                        <textarea id="description" x-model="description"
+                            placeholder="A new e-commerce platform with user auth, payment integration, and inventory management..."
+                            rows="4"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none placeholder:text-gray-400"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="col-span-1">
+                            <label for="estimate" class="block text-sm font-medium text-gray-700 mb-2">
+                                Your guess
+                            </label>
+                            <input type="number" id="estimate" x-model="estimate" placeholder="2" min="0"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400 text-center" />
+                        </div>
+                        <div class="col-span-2">
+                            <label for="unit" class="block text-sm font-medium text-gray-700 mb-2">
+                                Time unit
+                            </label>
+                            <select id="unit" x-model="unit"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white cursor-pointer">
+                                <option value="day">Days</option>
+                                <option value="week">Weeks</option>
+                                <option value="month">Months</option>
+                                <option value="year">Years</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full py-3.5 px-6 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        Get Reality Check
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div x-show="loading" x-transition class="mt-10 text-center">
+            <div
+                class="inline-flex items-center gap-3 px-6 py-4 bg-white rounded-xl shadow-lg shadow-gray-200/50 border border-gray-100">
+                <svg class="animate-spin h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+                <span class="text-gray-600 font-medium">Consulting the AI gods...</span>
+            </div>
+        </div>
+
+        <div x-show="!loading && result" x-transition class="mt-10">
+            <div
+                class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl shadow-lg shadow-amber-100/50 border border-amber-100 p-8">
+                <div class="flex items-start gap-4">
+                    <div class="flex-shrink-0 w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-amber-800 uppercase tracking-wide mb-2">The Verdict</h3>
+                        <p class="text-gray-800 leading-relaxed" x-text="result"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center">
+            <p class="text-sm text-gray-400">Made with ❤️ for chronically optimistic developers</p>
+        </div>
     </div>
-
-    <form class="flex flex-col border-2 border-gray-500 p-8 space-y-4 mx-auto max-w-6xl" x-on:submit="
-        $event.preventDefault();
-        loading = true;
-        setTimeout(() => {
-            let index = Math.floor(Math.random() * estimateResponses.length);
-            result = estimateResponses[index];
-            loading = false;
-        }, 000);        
-    ">
-        <textarea placeholder="Enter project description" rows="4"></textarea>
-        <input type="number" placeholder="Enter a number" min="0" />
-        <select>
-            <option value="day">Day</option>
-            <option value="week">Week</option>
-            <option value="month">Month</option>
-            <option value="year">Year</option>
-        </select>
-        <button>Verify Estimate</button>
-    </form>
-
-    <div x-show="loading" class="text-center mt-16 text-xl">Asking AI...</div>
-    <div x-show="!loading" x-text="result" class="text-center mx-auto max-w-3xl mt-16 text-xl"></div>
 </body>
 
 </html>
