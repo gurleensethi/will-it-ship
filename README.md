@@ -2,10 +2,10 @@
 
 > Because your estimates are *adorably* wrong.
 
-An AI-powered reality check for overly optimistic developers.
+An AI-powered reality check for overly optimistic people.
 
 ## 👉 Try it: [gurleensethi.github.io/will-it-ship](https://gurleensethi.github.io/will-it-ship/)
 
 ---
 
-*Made with ❤️ for chronically optimistic developers*
+*Made with ❤️ for chronically optimistic people*
