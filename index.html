@@ -22,38 +22,64 @@
             inset: 0;
             overflow: hidden;
             pointer-events: none;
+            z-index: 0;
         }
 
-        .gradient-mesh::before {
-            content: '';
+        .gradient-orb {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 60% 40%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 30% 30%, rgba(14, 165, 233, 0.2) 0%, transparent 40%);
-            filter: blur(60px);
-            animation: meshMove 20s ease-in-out infinite;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0;
+            animation: orbFadeIn 3s ease-out forwards;
         }
 
-        @keyframes meshMove {
+        .gradient-orb-wrapper {
+            position: absolute;
+            animation: orbFloat 25s ease-in-out infinite;
+        }
 
-            0%,
+        @keyframes orbFadeIn {
+            0% {
+                opacity: 0;
+            }
             100% {
-                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.7;
             }
+        }
 
-            33% {
-                transform: translate(2%, 2%) rotate(2deg);
+        .gradient-orb-1 {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.8) 0%, transparent 70%);
+            top: -200px;
+            left: -100px;
+            animation-delay: 0s, 0s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
             }
-
-            66% {
-                transform: translate(-1%, 1%) rotate(-1deg);
+            12.5% {
+                transform: translate(300px, -200px) scale(0.85);
+            }
+            25% {
+                transform: translate(150px, -100px) scale(0.7);
+            }
+            37.5% {
+                transform: translate(-200px, 300px) scale(0.85);
+            }
+            50% {
+                transform: translate(-300px, 400px) scale(1);
+            }
+            62.5% {
+                transform: translate(-200px, 300px) scale(0.85);
+            }
+            75% {
+                transform: translate(200px, 200px) scale(0.7);
+            }
+            87.5% {
+                transform: translate(250px, 250px) scale(0.85);
             }
         }
 
@@ -64,7 +90,11 @@
 </head>
 
 <body class="bg-gray-950 min-h-screen py-12 px-4 relative">
-    <div class="gradient-mesh"></div>
+    <div class="gradient-mesh">
+        <div class="gradient-orb-wrapper">
+            <div class="gradient-orb gradient-orb-1"></div>
+        </div>
+    </div>
     <div class="max-w-2xl mx-auto relative z-10"
         x-data="{ description: '', estimate: '', unit: 'day', result: '', loading: false, errors: {}, validateForm() { this.errors = {}; if (!this.description.trim() || this.description.length < 10) { this.errors.description = 'Please provide at least 10 characters describing your project'; } if (!this.estimate || isNaN(parseFloat(this.estimate)) || parseFloat(this.estimate) <= 0) { this.errors.estimate = 'Enter a valid number greater than 0'; } return Object.keys(this.errors).length === 0; } }">
 
@@ -101,16 +131,16 @@
                     <div class="space-y-6">
                         <div>
                             <label for="description"
-                                class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">
-                                Project Summary
+                                class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2.5">
+                                What are you building?
                             </label>
                             <div class="relative">
                                 <textarea id="description" x-model="description"
-                                    placeholder="Describe what you're building - features, scope, technical requirements..."
+                                    placeholder="I am building Checkout API from scratch..."
                                     rows="3"
-                                    :class="errors.description ? 'border-red-400 focus:ring-red-400/50 focus:border-red-400' : 'border-gray-700 focus:ring-indigo-500/50 focus:border-indigo-500'"
-                                    class="w-full px-4 py-3.5 bg-gray-900/50 border rounded-xl focus:outline-none resize-none placeholder:text-gray-600 text-gray-200 transition-all pr-10"></textarea>
-                                <div class="absolute right-3 top-3 text-gray-600">
+                                    :class="errors.description ? 'border-red-400 focus:ring-red-400/50 focus:border-red-400' : 'border-gray-600 focus:ring-indigo-500/50 focus:border-indigo-500'"
+                                    class="w-full px-4 py-3.5 bg-gray-900/50 border rounded-xl focus:outline-none resize-none placeholder:text-gray-500 text-white transition-all pr-10"></textarea>
+                                <div class="absolute right-3 top-3 text-gray-500">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -131,14 +161,14 @@
                         <div class="grid grid-cols-3 gap-4">
                             <div class="col-span-1">
                                 <label for="estimate"
-                                    class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">
+                                    class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2.5">
                                     Estimate
                                 </label>
                                 <div class="relative">
                                     <input type="number" id="estimate" x-model="estimate" placeholder="2" min="0"
                                         step="0.1"
-                                        :class="errors.estimate ? 'border-red-400 focus:ring-red-400/50 focus:border-red-400' : 'border-gray-700 focus:ring-indigo-500/50 focus:border-indigo-500'"
-                                        class="w-full px-4 py-3.5 bg-gray-900/50 border rounded-xl focus:outline-none placeholder:text-gray-600 text-gray-200 text-center transition-all" />
+                                        :class="errors.estimate ? 'border-red-400 focus:ring-red-400/50 focus:border-red-400' : 'border-gray-600 focus:ring-indigo-500/50 focus:border-indigo-500'"
+                                        class="w-full px-4 py-3.5 bg-gray-900/50 border rounded-xl focus:outline-none placeholder:text-gray-500 text-white text-center transition-all" />
                                 </div>
                                 <p x-show="errors.estimate" x-transition
                                     class="mt-2 text-red-400 text-sm flex items-center gap-1.5">
@@ -152,19 +182,19 @@
                             </div>
                             <div class="col-span-2">
                                 <label for="unit"
-                                    class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">
+                                    class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2.5">
                                     Time Unit
                                 </label>
                                 <div class="relative">
                                     <select id="unit" x-model="unit"
-                                        class="w-full px-4 py-3.5 bg-gray-900/50 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-gray-200 cursor-pointer transition-all appearance-none [&>option]:bg-gray-900 pr-10">
+                                        class="w-full px-4 py-3.5 bg-gray-900/50 border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-white cursor-pointer transition-all appearance-none [&>option]:bg-gray-900 pr-10">
                                         <option value="day">Days</option>
                                         <option value="week">Weeks</option>
                                         <option value="month">Months</option>
                                         <option value="year">Years</option>
                                     </select>
                                     <div
-                                        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M19 9l-7 7-7-7" />
@@ -207,7 +237,7 @@
                     <div class="flex-1">
                         <h3 class="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-2.5">AI Analysis
                             Result</h3>
-                        <p class="text-gray-200 leading-relaxed" x-text="result"></p>
+                        <p class="text-white leading-relaxed" x-text="result"></p>
                     </div>
                 </div>
             </div>
@@ -217,6 +247,58 @@
             <p class="text-sm text-gray-500">Made with ❤️ for chronically optimistic developers</p>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const orb = document.querySelector('.gradient-orb');
+            const wrapper = document.querySelector('.gradient-orb-wrapper');
+            
+            if (orb && wrapper) {
+                const randomDelay = -(Math.random() * 25);
+                const randomFadeDelay = -(Math.random() * 2);
+                wrapper.style.animationDelay = `${randomDelay}s`;
+                orb.style.animationDelay = `${randomFadeDelay}s`;
+
+                let mouseX = 0;
+                let mouseY = 0;
+                let orbX = 0;
+                let orbY = 0;
+                const repelDistance = 250;
+                const repelStrength = 0.5;
+
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                function updateOrbPosition() {
+                    const orbRect = orb.getBoundingClientRect();
+                    const orbCenterX = orbRect.left + orbRect.width / 2;
+                    const orbCenterY = orbRect.top + orbRect.height / 2;
+
+                    const dx = orbCenterX - mouseX;
+                    const dy = orbCenterY - mouseY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < repelDistance) {
+                        const force = (repelDistance - distance) / repelDistance;
+                        orbX += dx * force * repelStrength;
+                        orbY += dy * force * repelStrength;
+                    } else {
+                        orbX *= 0.92;
+                        orbY *= 0.92;
+                    }
+
+                    orbX = Math.max(-150, Math.min(150, orbX));
+                    orbY = Math.max(-150, Math.min(150, orbY));
+
+                    orb.style.transform = `translate(${orbX}px, ${orbY}px)`;
+                    requestAnimationFrame(updateOrbPosition);
+                }
+
+                updateOrbPosition();
+            }
+        });
+    </script>
 </body>
 
 </html>
