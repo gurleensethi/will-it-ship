@@ -42,6 +42,7 @@
             0% {
                 opacity: 0;
             }
+
             100% {
                 opacity: 0.7;
             }
@@ -57,27 +58,36 @@
         }
 
         @keyframes orbFloat {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translate(0, 0) scale(1);
             }
+
             12.5% {
                 transform: translate(300px, -200px) scale(0.85);
             }
+
             25% {
                 transform: translate(150px, -100px) scale(0.7);
             }
+
             37.5% {
                 transform: translate(-200px, 300px) scale(0.85);
             }
+
             50% {
                 transform: translate(-300px, 400px) scale(1);
             }
+
             62.5% {
                 transform: translate(-200px, 300px) scale(0.85);
             }
+
             75% {
                 transform: translate(200px, 200px) scale(0.7);
             }
+
             87.5% {
                 transform: translate(250px, 250px) scale(0.85);
             }
@@ -101,10 +111,10 @@
         <div class="text-center mb-8">
             <div
                 class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 backdrop-blur-sm border border-indigo-500/20 rounded-full px-4 py-1.5 mb-6">
-                <span class="relative flex h-3 w-3">
+                <span class="relative flex h-3.5 w-3.5">
                     <span
-                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-80"></span>
+                    <span class="relative inline-flex rounded-full mx-auto my-auto h-2.5 w-2.5 bg-indigo-500"></span>
                 </span>
                 <span class="text-base text-indigo-300 font-medium">AI-Powered Analysis</span>
             </div>
@@ -136,8 +146,7 @@
                             </label>
                             <div class="relative">
                                 <textarea id="description" x-model="description"
-                                    placeholder="I am building Checkout API from scratch..."
-                                    rows="3"
+                                    placeholder="I am building Checkout API from scratch..." rows="3"
                                     :class="errors.description ? 'border-red-400 focus:ring-red-400/50 focus:border-red-400' : 'border-gray-600 focus:ring-indigo-500/50 focus:border-indigo-500'"
                                     class="w-full px-4 py-3.5 bg-gray-900/50 border rounded-xl focus:outline-none resize-none placeholder:text-gray-500 text-white transition-all pr-10"></textarea>
                                 <div class="absolute right-3 top-3 text-gray-500">
@@ -251,7 +260,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const orb = document.querySelector('.gradient-orb');
             const wrapper = document.querySelector('.gradient-orb-wrapper');
-            
+
             if (orb && wrapper) {
                 const randomDelay = -(Math.random() * 25);
                 const randomFadeDelay = -(Math.random() * 2);
